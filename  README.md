@@ -1,6 +1,4 @@
-# CS120-Chess
-
-**Homework 7, 600.120(04) Spring 2017**
+# CS120-Chess Final Project
 
 Date: May 6, 2017 (Late Submission Approved By Instructor Barnoy)
 
@@ -10,15 +8,15 @@ ID: syoo21
 
 Email: syoo21@jhu.edu
 
-*TEAM*
+**TEAM**
 
 Sun Jay Yoo, syoo21
 
 Abdur Sajid, asajid2
 
-*DESIGN*
+**DESIGN**
 
-*COMPLETENESS*
+**COMPLETENESS**
 
-*SPECIAL INSTRUCTIONS*
+**SPECIAL INSTRUCTIONS**
 
