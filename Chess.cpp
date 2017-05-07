@@ -12,7 +12,7 @@ using namespace std;
 
 // Make a move on the board. Return an int, with < 0 being failure
 int ChessGame::makeMove(Position start, Position end) { 
-    //Piece* temp = m_pieces[index(start)]; 
+    /*//Piece* temp = m_pieces[index(start)]; 
     //m_pieces[index(end)] = temp; 
     //m_pieces[index(start)] = NULL; 
     Piece* p = getPiece(start); 
@@ -24,13 +24,13 @@ int ChessGame::makeMove(Position start, Position end) {
         tempowner = temp->owner(); 
     }
 
-    int retCode = -1; 
     int a = p->validMove(start, end, *this); 
 
     if (a == 1) { 
      retCode = Board::makeMove(start, end); 
 
-    } 
+    }*/
+    int retCode = Board::makeMove(start, end);
     return retCode; 
 }
 
@@ -204,33 +204,31 @@ return valid;
 }
 
 
-int Queen::validMove(Position start, Position end,const Board& board) const {
-    unsigned int sx = start.x;
+int Queen::validMove(Position start, Position end,const Board& board) const { 
+    unsigned int sx = start.x; 
     unsigned int sy = start.y;
     unsigned int ex = end.x;
     unsigned int ey = end.y;
 
-    int valid = 0; 
+    int valid = -1; 
 
     if (sx == ex || sy == ey) { 
         valid = 1; 
     }
-    else if ( 
-        for( int i = 0; i < 8; i++) { 
+    else {
+        for ( int i = 0; i < 8; i++) {
+            if ( 
             sx + i == ex && sy + i == ey ||
             sx + i == ex && sy - i == ey ||
             sx - i == ex && sy + i == ey ||
             sx - i == ex && sy - i == ey 
-           }
-            )
-    {  
-     valid = 1; 
-}
-    else{ 
-        valid = -1; 
-    }
+            ) { 
+                valid = 1;
+            }
+        } 
     return valid; 
-} 
+    } 
+}
 
 int King::validMove(Position start, Position end, const Board& board) const { 
     unsigned int sx = start.x; 

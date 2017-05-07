@@ -1,6 +1,8 @@
 #include <assert.h>
 #include <cctype>
 #include <iostream>
+#include <fstream>
+
 
 #include "Game.h"
 #include "Prompts.h"
@@ -8,6 +10,8 @@
 ///////////////
 // Board //
 ///////////////
+using namespace std;
+
 
 Board::~Board() {
     // Delete all pointer-based resources
@@ -79,25 +83,35 @@ Piece* Board::newPiece(int id, Player owner) {
 }
 
 int Board::makeMove(Position start, Position end){
+    if (m_pieces[index(end)] != NULL){
+        free(m_pieces[index(end)]);
+    }
     Piece* temp = m_pieces[index(start)];
     m_pieces[index(end)] = temp; 
     m_pieces[index(start)] = NULL; 
-    return 0; 
+    return 1; 
 }
 void Board::save(int turn){
     Prompts::saveGame();
     char * filename = (char*)malloc(50*sizeof(char));
     cin >> filename;
-    ofstream outputf;
-    outputf.open(filename);
-    outputf << "chess\n";
-    outputf << turn;
+    ofstream outfile;
+    outfile.open(filename);
+    outfile << "chess\n";
+    outfile << turn << "\n";
+
+    vector <string> keys = {"a", "b", "c", "d", "e", "f", "g", "h"};
     for(size_t i = 0; i < m_pieces.size(); i++){
-        if(chess.m_pieces[i] != NULL){
-            outputf << m_pieces[i]->owner() << " ";
-            outputf << m_pieces[i]->id();
+        if(m_pieces[i] != NULL){
+            outfile << m_pieces[i]->owner() << " ";
+            int loc = (i+1)%8;
+            if (loc==0)
+                outfile << keys[7];
+            else 
+                outfile << keys[loc-1];
+            outfile << (i /8) + 1 << " "<< m_pieces[i]->id() << "\n";
         }
     }
-    outputf.close();
+    outfile.close();
 }
 
