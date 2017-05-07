@@ -70,11 +70,9 @@ public:
     // The method returns an integer with the status
     // >= 0 is SUCCESS, < 0 is failure
     // [Do not modify the type of this method]
-    virtual int makeMove(Position start, Position end) {
+    virtual int makeMove(Position start, Position end);
         // This method may handle the parts of moving pieces that
         // generalize over different board games
-        return 0;
-    }
 
     // The main gameplay loop. Ideally, you should be able to implement
     // all of the gameplay loop logic here in the Board class rather than

@@ -78,3 +78,10 @@ Piece* Board::newPiece(int id, Player owner) {
     }
 }
 
+int Board::makeMove(Position start, Position end){
+    Piece* temp = m_pieces[index(start)];
+    m_pieces[index(end)] = temp; 
+    m_pieces[index(start)] = NULL; 
+    return 0; 
+}
+

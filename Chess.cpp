@@ -8,16 +8,21 @@
 #include "Prompts.h"
 #include "Terminal.h"
 
-
 using namespace std;
-
 
 // Make a move on the board. Return an int, with < 0 being failure
 int ChessGame::makeMove(Position start, Position end) {
     // Possibly implement chess-specific move logic here
+    //Piece* temp = getPiece(start);
+    //Piece* temp = m_pieces[index(start)];
+    //initPiece(temp->id(), temp->owner(), end);
+    //initPiece(-1, temp->owner(), start);
     //
     // We call Board's makeMove to handle any general move logic
     // Feel free to use this or change it as you see fit
+    Piece* temp = m_pieces[index(start)];
+    m_pieces[index(end)] = temp; 
+    m_pieces[index(start)] = NULL;
     int retCode = Board::makeMove(start, end);
     return retCode;
 }
@@ -53,53 +58,199 @@ void ChessGame::printBoard() {
             }
             Terminal::colorFg(true, Terminal::WHITE);
             if (current == NULL) {
-                std::cout << "   ";
+                std::cout << "     ";
             }
             else {
                 int person = current->owner();
                 int value = current->id();
                 // black pieces
                 if (person == 1 && value == 0) { // black pawn
-                    cout << " \u265F" << " ";
+                    cout << "  \u265F " << " ";
                 }
                 if (person == 1 && value == 1) { // black rook
-                    cout << " \u265C" << " ";  
+                    cout << "  \u265C " << " ";  
                 }
                 if (person == 1 && value == 2) { // black knight
-                    cout << " \u265E" << " ";
+                    cout << "  \u265E " << " ";
                 }
                 if (person == 1 && value == 3) { // black bishop
-                    cout << " \u265D" << " ";
+                    cout << "  \u265D " << " ";
                 }
                 if (person == 1 && value == 4) { // black queen
-                    cout << " \u265B" << " ";
+                    cout << "  \u265B " << " ";
                 }
                 if (person == 1 && value == 5) { // black king
-                    cout << " \u265A" << " ";
+                    cout << "  \u265A " << " ";
                 }
                 // white pieces
                 if (person == 0 && value == 0) { // white pawn
-                    cout << " \u2659" << " ";
+                    cout << "  \u2659 " << " ";
                 }
                 if (person == 0 && value == 1) { // white rook
-                    cout << " \u2656" << " ";
+                    cout << "  \u2656 " << " ";
                 }
                 if (person == 0 && value == 2) { // white knight
-                    cout << " \u2658" << " ";
+                    cout << "  \u2658 " << " ";
                 }
                 if (person == 0 && value == 3) { // white bishop
-                    cout << " \u2657" << " ";
+                    cout << "  \u2657 " << " ";
                 }
                 if (person == 0 && value == 4) { // white queen
-                    cout << " \u2655" << " ";
+                    cout << "  \u2655 " << " ";
                 }
                 if (person == 0 && value == 5) { // white king
-                    cout << " \u2654"<< " ";
+                    cout << "  \u2654 "<< " ";
                 }
             }
             Terminal::set_default();
         }
         cout<<endl;
     }
-    cout << "   a  b  c  d  e  f  g  h" << endl;
+    cout << "    a    b    c    d    e    f    g    h" << endl;
 }
+/*int Knight::validMove(Position start, Position end,const Board& board) const override { 
+    unsigned int sx = start.x; 
+    unsigned int sx = start.x;
+    unsigned int ex = end.x;
+    unsigned int ey = end.y;
+
+    int valid = 0; 
+    //checks if movement is valdi for Knight 
+    if (
+        sx + 1 = ex && sy + 2 =  ey ||  
+        sx + 1 = ex && sy - 2 =  ey ||
+        sx + 2 = ex && sy + 1 =  ey ||
+        sx + 2 = ex && sy - 1 =  ey ||      
+        ) { 
+        valid = 1; 
+    }
+    else { 
+        valid = -1; 
+    }
+    return valid; 
+}
+
+int Pawn::validMove(Position start, Position end,const Board& board) const override { 
+    unsigned int sx = start.x; 
+    unsigned int sx = start.x;
+    unsigned int ex = end.x;
+    unsigned int ey = end.y;
+
+    int valid = 0; 
+
+    if ( 
+
+        (sx = ex && owner() = 0 && sy = 1 && sy + 2 = ey) ||
+        (sx = ex && owner() = 0 && sy + 1 = ey) ||
+        (sx = ex && owner() = 1 && sy = 6 %% sy + 2 = ey) ||
+        (sx = ex && owner() = 1 && sy + 1 = ey) ||
+
+        ) { 
+        valid = 1; 
+}
+else { 
+        valid = -1; 
+    }
+
+    return valid; 
+}
+
+int Rook::validMove(Position start, Position end,const Board& board) const override { 
+    unsigned int sx = start.x; 
+    unsigned int sx = start.x;
+    unsigned int ex = end.x;
+    unsigned int ey = end.y;
+
+    int valid = 0; 
+
+    if (sx = ex || sy = ey) { 
+        valid = 1; 
+    }
+    else { 
+        valid = -1; 
+    }
+    return valid; 
+} 
+
+int Bishop::validMove(Position start, Position end,const Board& board) const override { 
+    unsigned int sx = start.x; 
+    unsigned int sx = start.x;
+    unsigned int ex = end.x;
+    unsigned int ey = end.y;
+
+    int valid = 0; 
+
+for ( int i = 0; i < 8; i++) { 
+    if (
+        sx + i = ex && sy + i = ey ||
+        sx + i = ex && sy - i = ey ||
+        sx - i = ex && sy + i = ey ||
+        sx - i = ex && sy - i = ey ||
+        ) { 
+        valid = 1; 
+}
+else { 
+        valid = -1; 
+    } 
+}
+return valid; 
+}
+
+
+int Queen::validMove(Position start, Position end,const Board& board) const override { 
+    unsigned int sx = start.x; 
+    unsigned int sx = start.x;
+    unsigned int ex = end.x;
+    unsigned int ey = end.y;
+
+    int valid = 0; 
+
+    if (sx = ex || sy = ey) { 
+        valid = 1; 
+    }
+    else if ( 
+        for ( int i = 0; i < 8; i++) { 
+            sx + i = ex && sy + i = ey ||
+            sx + i = ex && sy - i = ey ||
+            sx - i = ex && sy + i = ey ||
+            sx - i = ex && sy - i = ey ||
+           }
+            )
+    {  
+     valid = 1; 
+    }
+    else{ 
+        valid = -1; 
+    }
+    return valid; 
+} 
+
+int King::validMove(Position start, Position end,const Board& board) const override { 
+    unsigned int sx = start.x; 
+    unsigned int sx = start.x;
+    unsigned int ex = end.x;
+    unsigned int ey = end.y;
+
+    int valid = 0; 
+
+    if ( 
+
+        sx = ex && sy + 1 = ey ||
+        sx = ex && sy - 1 = ey ||
+        sx + 1 = ex && sy = ey ||
+        sx + 1 = ex && sy + 1 = ey ||
+        sx + 1 = ex && sy - 1 = ey ||
+        sx - 1 = ex && sy = ey ||
+        sx - 1 = ex && sy + 1 = ey ||
+        sx - 1 = ex && sy - 1 = ey ||
+        ) { 
+        valid = 1; 
+    }
+    else { 
+        valid = -1; 
+    }
+    return valid; 
+}*/
+
+
+
