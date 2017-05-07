@@ -81,6 +81,7 @@ public:
 
     // Returns "true" if the game is over
     virtual bool gameOver() const = 0 ;
+    virtual void save(int turn);
 
 protected:
     // All the factories registered with this Board

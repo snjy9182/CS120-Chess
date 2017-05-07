@@ -84,4 +84,20 @@ int Board::makeMove(Position start, Position end){
     m_pieces[index(start)] = NULL; 
     return 0; 
 }
+void Board::save(int turn){
+    Prompts::saveGame();
+    char * filename = (char*)malloc(50*sizeof(char));
+    cin >> filename;
+    ofstream outputf;
+    outputf.open(filename);
+    outputf << "chess\n";
+    outputf << turn;
+    for(size_t i = 0; i < m_pieces.size(); i++){
+        if(chess.m_pieces[i] != NULL){
+            outputf << m_pieces[i]->owner() << " ";
+            outputf << m_pieces[i]->id();
+        }
+    }
+    outputf.close();
+}
 

@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <fstream>
 #include "Game.h"
 #include "Chess.h"
 #include "Prompts.h"
@@ -57,7 +58,18 @@ int main() {
     			}
     			continue;
     		}
-    	
+    		if (!turnInput.compare("forfeit")){
+				if (p == 0)
+					Prompts::win(BLACK, turn);
+				else
+					Prompts::win(WHITE, turn);
+				Prompts::gameOver();
+				break;
+    		}
+    		if (!turnInput.compare("save")){
+				chess.Board::save(turn);
+				continue;
+    		}
 			int StartCol = (int)turnInput[0] - 97;
 			int StartRow = (int)turnInput[1] - 48;
 			int EndCol = (int)turnInput[3] - 97;

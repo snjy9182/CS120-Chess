@@ -11,20 +11,27 @@
 using namespace std;
 
 // Make a move on the board. Return an int, with < 0 being failure
-int ChessGame::makeMove(Position start, Position end) {
-    // Possibly implement chess-specific move logic here
-    //Piece* temp = getPiece(start);
-    //Piece* temp = m_pieces[index(start)];
-    //initPiece(temp->id(), temp->owner(), end);
-    //initPiece(-1, temp->owner(), start);
-    //
-    // We call Board's makeMove to handle any general move logic
-    // Feel free to use this or change it as you see fit
-    Piece* temp = m_pieces[index(start)];
-    m_pieces[index(end)] = temp; 
-    m_pieces[index(start)] = NULL;
-    int retCode = Board::makeMove(start, end);
-    return retCode;
+int ChessGame::makeMove(Position start, Position end) { 
+    //Piece* temp = m_pieces[index(start)]; 
+    //m_pieces[index(end)] = temp; 
+    //m_pieces[index(start)] = NULL; 
+    Piece* p = getPiece(start); 
+    Piece* temp = getPiece(end); 
+    Player tempowner; 
+    int tempid; 
+    if (temp != NULL && p != NULL) { 
+        tempid = temp->id(); 
+        tempowner = temp->owner(); 
+    }
+
+    int retCode = -1; 
+    int a = p->validMove(start, end, *this); 
+
+    if (a == 1) { 
+     retCode = Board::makeMove(start, end); 
+
+    } 
+    return retCode; 
 }
 
 // Setup the chess board with its initial pieces
@@ -108,19 +115,19 @@ void ChessGame::printBoard() {
     }
     cout << "    a    b    c    d    e    f    g    h" << endl;
 }
-/*int Knight::validMove(Position start, Position end,const Board& board) const override { 
+int Knight::validMove(Position start, Position end,const Board& board) const { 
     unsigned int sx = start.x; 
-    unsigned int sx = start.x;
+    unsigned int sy = start.y;
     unsigned int ex = end.x;
     unsigned int ey = end.y;
 
     int valid = 0; 
     //checks if movement is valdi for Knight 
     if (
-        sx + 1 = ex && sy + 2 =  ey ||  
-        sx + 1 = ex && sy - 2 =  ey ||
-        sx + 2 = ex && sy + 1 =  ey ||
-        sx + 2 = ex && sy - 1 =  ey ||      
+        sx + 1 == ex && sy + 2 ==  ey ||  
+        sx + 1 == ex && sy - 2 ==  ey ||
+        sx + 2 == ex && sy + 1 ==  ey ||
+        sx + 2 == ex && sy - 1 ==  ey     
         ) { 
         valid = 1; 
     }
@@ -130,9 +137,9 @@ void ChessGame::printBoard() {
     return valid; 
 }
 
-int Pawn::validMove(Position start, Position end,const Board& board) const override { 
+int Pawn::validMove(Position start, Position end,const Board& board) const { 
     unsigned int sx = start.x; 
-    unsigned int sx = start.x;
+    unsigned int sy = start.y;
     unsigned int ex = end.x;
     unsigned int ey = end.y;
 
@@ -140,10 +147,10 @@ int Pawn::validMove(Position start, Position end,const Board& board) const overr
 
     if ( 
 
-        (sx = ex && owner() = 0 && sy = 1 && sy + 2 = ey) ||
-        (sx = ex && owner() = 0 && sy + 1 = ey) ||
-        (sx = ex && owner() = 1 && sy = 6 %% sy + 2 = ey) ||
-        (sx = ex && owner() = 1 && sy + 1 = ey) ||
+        (sx == ex && owner() == 0 && sy == 1 && sy + 2 == ey) ||
+        (sx == ex && owner() == 0 && sy + 1 == ey) ||
+        (sx == ex && owner() == 1 && sy == 6 && sy + 2 == ey) ||
+        (sx == ex && owner() == 1 && sy + 1 == ey) 
 
         ) { 
         valid = 1; 
@@ -155,15 +162,15 @@ else {
     return valid; 
 }
 
-int Rook::validMove(Position start, Position end,const Board& board) const override { 
+int Rook::validMove(Position start, Position end,const Board& board) const { 
     unsigned int sx = start.x; 
-    unsigned int sx = start.x;
+    unsigned int sy = start.y;
     unsigned int ex = end.x;
     unsigned int ey = end.y;
 
     int valid = 0; 
 
-    if (sx = ex || sy = ey) { 
+    if (sx == ex || sy == ey) { 
         valid = 1; 
     }
     else { 
@@ -172,9 +179,9 @@ int Rook::validMove(Position start, Position end,const Board& board) const overr
     return valid; 
 } 
 
-int Bishop::validMove(Position start, Position end,const Board& board) const override { 
+int Bishop::validMove(Position start, Position end,const Board& board) const { 
     unsigned int sx = start.x; 
-    unsigned int sx = start.x;
+    unsigned int sy = start.y;
     unsigned int ex = end.x;
     unsigned int ey = end.y;
 
@@ -182,10 +189,10 @@ int Bishop::validMove(Position start, Position end,const Board& board) const ove
 
 for ( int i = 0; i < 8; i++) { 
     if (
-        sx + i = ex && sy + i = ey ||
-        sx + i = ex && sy - i = ey ||
-        sx - i = ex && sy + i = ey ||
-        sx - i = ex && sy - i = ey ||
+        sx + i == ex && sy + i == ey ||
+        sx + i == ex && sy - i == ey ||
+        sx - i == ex && sy + i == ey ||
+        sx - i == ex && sy - i == ey 
         ) { 
         valid = 1; 
 }
@@ -197,37 +204,37 @@ return valid;
 }
 
 
-int Queen::validMove(Position start, Position end,const Board& board) const override { 
-    unsigned int sx = start.x; 
+int Queen::validMove(Position start, Position end,const Board& board) const {
     unsigned int sx = start.x;
+    unsigned int sy = start.y;
     unsigned int ex = end.x;
     unsigned int ey = end.y;
 
     int valid = 0; 
 
-    if (sx = ex || sy = ey) { 
+    if (sx == ex || sy == ey) { 
         valid = 1; 
     }
     else if ( 
-        for ( int i = 0; i < 8; i++) { 
-            sx + i = ex && sy + i = ey ||
-            sx + i = ex && sy - i = ey ||
-            sx - i = ex && sy + i = ey ||
-            sx - i = ex && sy - i = ey ||
+        for( int i = 0; i < 8; i++) { 
+            sx + i == ex && sy + i == ey ||
+            sx + i == ex && sy - i == ey ||
+            sx - i == ex && sy + i == ey ||
+            sx - i == ex && sy - i == ey 
            }
             )
     {  
      valid = 1; 
-    }
+}
     else{ 
         valid = -1; 
     }
     return valid; 
 } 
 
-int King::validMove(Position start, Position end,const Board& board) const override { 
+int King::validMove(Position start, Position end, const Board& board) const { 
     unsigned int sx = start.x; 
-    unsigned int sx = start.x;
+    unsigned int sy = start.y;
     unsigned int ex = end.x;
     unsigned int ey = end.y;
 
@@ -235,14 +242,14 @@ int King::validMove(Position start, Position end,const Board& board) const overr
 
     if ( 
 
-        sx = ex && sy + 1 = ey ||
-        sx = ex && sy - 1 = ey ||
-        sx + 1 = ex && sy = ey ||
-        sx + 1 = ex && sy + 1 = ey ||
-        sx + 1 = ex && sy - 1 = ey ||
-        sx - 1 = ex && sy = ey ||
-        sx - 1 = ex && sy + 1 = ey ||
-        sx - 1 = ex && sy - 1 = ey ||
+        sx == ex && sy + 1 == ey ||
+        sx == ex && sy - 1 == ey ||
+        sx + 1 == ex && sy == ey ||
+        sx + 1 == ex && sy + 1 == ey ||
+        sx + 1 == ex && sy - 1 == ey ||
+        sx - 1 == ex && sy == ey ||
+        sx - 1 == ex && sy + 1 == ey ||
+        sx - 1 == ex && sy - 1 == ey 
         ) { 
         valid = 1; 
     }
@@ -250,7 +257,7 @@ int King::validMove(Position start, Position end,const Board& board) const overr
         valid = -1; 
     }
     return valid; 
-}*/
+}
 
 
 
